@@ -1,24 +1,40 @@
-# ครั้งที่ 7 ⭐⭐ — นับว่ากดปุ่มไปกี่ครั้ง
-#
-# วงจรเดียวกับ button.py · กดค้างไว้นาน ๆ ต้องนับแค่ 1 ครั้ง
-# วิธีคิด: จำไว้ว่ารอบก่อนกดอยู่ไหม → รอบนี้กด แต่รอบก่อนไม่กด = เพิ่งกดลงไป
-
 from machine import Pin
 import time
-
-BUTTON_PIN = 9
-WAIT = 0.05       # วินาที รอให้ปุ่มหยุดเด้งก่อนอ่านรอบถัดไป
-
-button = Pin(BUTTON_PIN, Pin.IN, Pin.PULL_UP)
-
-count = 0
-was_pressed = False      # รอบที่แล้วกดอยู่ไหม (เริ่มต้น = ยังไม่กด)
-
+LED_PIN_G = 2
+LED_PIN_R = 3
+LED_PIN_B = 4
+LED_PIN_Y = 5
+buttonpin = 9
+DELAY = 0.25
+led_g = Pin(LED_PIN_G, Pin.OUT)
+led_r = Pin(LED_PIN_R, Pin.OUT)
+led_b = Pin(LED_PIN_B, Pin.OUT)
+led_y = Pin(LED_PIN_Y, Pin.OUT)
+button = Pin(buttonpin, Pin.IN, Pin.PULL_UP)
 while True:
-    pressed = button.value() == 0
-    # ⭐⭐ TODO: ถ้ากดอยู่ แต่รอบที่แล้วไม่ได้กด → count เพิ่ม 1 แล้ว print("กด", count, "ครั้ง")
-    was_pressed = pressed                # จำไว้ใช้รอบหน้า
-    time.sleep(WAIT)
-
-# ทดสอบ: กด 3 ครั้ง (ครั้งที่ 2 กดค้างนาน ๆ) ต้องเห็น กด 1 ครั้ง · กด 2 ครั้ง · กด 3 ครั้ง
-# ทดลองที่บ้าน: เปลี่ยน WAIT = 0.001 แล้วกดหลาย ๆ ครั้ง นับเกินไหม? ทำไม? (เขียนตอบในบันทึก s07.md)
+    if button.value() == 0:
+        led_r.value(0)
+        led_y.value(1)
+        time.sleep(DELAY)
+        led_y.value(0)
+        led_b.value(1)
+        time.sleep(DELAY)        
+        led_b.value(0)
+        led_g.value(1)
+        time.sleep(DELAY)
+        led_g.value(0)
+        led_r.value(1)
+        time.sleep(DELAY)
+    else:
+        led_y.value(0)
+        led_r.value(1)
+        time.sleep(DELAY)
+        led_r.value(0)
+        led_g.value(1)
+        time.sleep(DELAY)        
+        led_g.value(0)
+        led_b.value(1)
+        time.sleep(DELAY)
+        led_b.value(0)
+        led_y.value(1)
+        time.sleep(DELAY)
